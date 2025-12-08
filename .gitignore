@@ -6,9 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
-#duckdb
-.duckdb
+# duckdb
+*.wal
+*.duckdb
 
+# Test file
 test.ipynb
 
 # Distribution / packaging
