@@ -8,6 +8,7 @@
     x=customer
     y=total_spent
     swapXY=true
+    labels=true
 />
 
 Addresses for each customer so we know where to contact each winner
@@ -46,6 +47,8 @@ ORDER BY total_revenue DESC;
     y=total_revenue
     series=category
     swapXY=true
+    labels=true
+    labelFmt="#### $"
 />
 
 ```sql revenue_category_month
@@ -74,4 +77,7 @@ ORDER BY revenue DESC;
     x=month
     y=revenue
     series=category
+    labels=true
+    seriesLabels=false
+    labelFmt="#### $"
 />
