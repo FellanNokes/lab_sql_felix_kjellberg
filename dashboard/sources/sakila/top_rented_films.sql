@@ -5,6 +5,7 @@ SELECT
     c.name,
     p.amount,
     r.rental_date
+    r.rental_id
 FROM staging.film f 
 LEFT JOIN staging.film_category fc ON f.film_id = fc.film_id
 LEFT JOIN staging.category c ON fc.category_id = c.category_id

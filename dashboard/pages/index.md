@@ -5,11 +5,25 @@
 ```sql top_rented_films_amount
 SELECT
     title,
-    name AS category,
-    COUNT(rental_date) AS times_rented,
-    SUM(amount) AS total_revenue
-FROM sakila.top_rented_films
-GROUP BY all
+    category,
+    rental_cost,
+    rental_duration,
+    times_rented,
+    times_rented * rental_cost AS total_revenue
+FROM (
+    SELECT
+        title,
+        name AS category,
+        rental_rate AS rental_cost,
+        rental_duration,
+        COUNT(rental_date) AS times_rented
+    FROM sakila.top_rented_films
+    GROUP BY
+        title,
+        name,
+        rental_rate,
+        rental_duration
+) t
 ORDER BY times_rented DESC, total_revenue DESC
 LIMIT 5;
 ```
@@ -27,7 +41,51 @@ The rop rented movies by the amount of times it has been rented out.
     yAxisLabels="Times rented"
 />
 
+
+
 ```sql top_rented_films_revenue
+SELECT
+    title,
+    category,
+    rental_cost,
+    rental_duration,
+    times_rented,
+    times_rented * rental_cost AS total_revenue
+FROM (
+    SELECT
+        title,
+        name AS category,
+        rental_rate AS rental_cost,
+        rental_duration,
+        COUNT(rental_date) AS times_rented
+    FROM sakila.top_rented_films
+    GROUP BY
+        title,
+        name,
+        rental_rate,
+        rental_duration
+) t
+ORDER BY total_revenue DESC, times_rented DESC
+LIMIT 5;
+```
+
+Top rented movies by means of only rental cost without penalty fees
+
+<BarChart
+    data={top_rented_films_revenue}
+    title="Movies revenue amount"
+    x=title
+    y=total_revenue
+    swapXY=true
+    labels=true
+    xAxisLabels="Movie title"
+    yAxisLabels="Revenue amount"
+    labelFmt="#### $"
+/>
+
+Top rented movies by the amount of revenue it has pulled in including pentalty fees.
+
+```sql top_rented
 SELECT
     title,
     name as category,
@@ -41,20 +99,43 @@ ORDER BY total_revenue DESC, times_rented DESC
 LIMIT 5;
 ```
 
-Top rented movies by the amount of revenue it has pulled in.
-
 <BarChart
-    data={top_rented_films_revenue}
+    data={top_rented}
     title="Movies revenue amount"
     x=title
     y=total_revenue
     swapXY=true
     labels=true
     xAxisLabels="Movie title"
-    yAxisLabels="Times rented"
+    yAxisLabels="Revenue amount"
     labelFmt="#### $"
 />
 
+```sql top_late_fee
+SELECT
+    title,
+    COUNT(rental_date) AS times_rented,
+    rental_rate,
+    COUNT(rental_date) * rental_rate AS expected_revenue,
+    SUM(amount) AS actual_revenue,
+    SUM(amount) - COUNT(rental_date) * rental_rate AS late_fee_revenue
+FROM sakila.top_rented_films
+GROUP BY title, rental_rate
+ORDER BY late_fee_revenue DESC
+LIMIT 5;
+```
+
+<BarChart
+    data={top_late_fee}
+    title="Movies late fee amount"
+    x=title
+    y=late_fee_revenue
+    swapXY=true
+    labels=true
+    xAxisLabels="Movie title"
+    yAxisLabels="Revenue amount"
+    labelFmt="#### $"
+/>
 ## Top 5 customers
 
 Addresses for each customer so we know where to contact each winner
