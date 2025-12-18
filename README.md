@@ -44,6 +44,7 @@ Two complementary views are provided to highlight film performance:
 
 - **Most rented films by volume**, showing which movies are rented out most frequently.
 - **Top rented films by total revenue**, combining rental frequency with rental price and rental duration.
+- **Top rented films by penalty fees**, total revenue minus the renal cost revenue to get penalty fees.
 
 These views help distinguish between films that are popular and those that generate the most revenue.
 
