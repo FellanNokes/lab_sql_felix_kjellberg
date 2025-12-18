@@ -15,9 +15,6 @@ __pycache__/
 # Test file
 test.ipynb
 
-#dashboard
-dashboard/sources/needful_things
-dashboard/pages/index.md
 
 # Distribution / packaging
 .Python

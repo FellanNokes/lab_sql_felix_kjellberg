@@ -1,6 +1,7 @@
 # Analytics for stakeholders
 ## Top rented movies
 
+
 ```sql top_rented_films_amount
 SELECT
     title,
@@ -12,6 +13,9 @@ GROUP BY all
 ORDER BY times_rented DESC, total_revenue DESC
 LIMIT 5;
 ```
+
+The rop rented movies by the amount of times it has been rented out.
+
 <BarChart
     data={top_rented_films_amount}
     title="Movies rented amount"
@@ -37,6 +41,8 @@ ORDER BY total_revenue DESC, times_rented DESC
 LIMIT 5;
 ```
 
+Top rented movies by the amount of revenue it has pulled in.
+
 <BarChart
     data={top_rented_films_revenue}
     title="Movies revenue amount"
@@ -52,6 +58,7 @@ LIMIT 5;
 ## Top 5 customers
 
 Addresses for each customer so we know where to contact each winner
+
 ```sql top_customer
 SELECT
     customer,
@@ -67,6 +74,8 @@ GROUP BY all
 ORDER BY total_spent DESC
 LIMIT 5;
 ```
+
+
 <BarChart
     data={top_customer}
     title="Top spenders"
@@ -76,8 +85,9 @@ LIMIT 5;
     labels=true
     labelFmt="#### $"
 />
+
 ## Total revenue by category
-This is the total amount of revenue per category
+
 
 ```sql revenue_category
 SELECT
@@ -88,6 +98,7 @@ GROUP BY category
 ORDER BY total_revenue DESC;
 ```
 
+This is the total amount of revenue per category
 
 <BarChart
     data={revenue_category}
@@ -110,9 +121,13 @@ GROUP BY all
 ORDER BY revenue DESC;
 ```
 
+Select a category to se how much revenue it brings in per month
+
 <Dropdown data={revenue_category_month} name=category value=category>
     <DropdownOption value="%" valueLabel="All Categories"/>
 </Dropdown>
+
+
 
 <LineChart
     data={revenue_category_month}
@@ -126,6 +141,8 @@ ORDER BY revenue DESC;
 
 ## Children movies that are rated R and NC-17
 
+List of all the childrens movies rated PG-13, R and NC-17 this is very concering and maybe we should look through this list to see if they belong in a different category
+
 ```sql children_category_ratings
 SELECT
     title,
@@ -134,6 +151,8 @@ SELECT
 FROM sakila.children_movies
 WHERE category = 'Children' AND rating IN ('PG-13', 'R', 'NC-17');
 ```
+
+
 
 ```sql children_category_ratings_amount
 SELECT
@@ -156,6 +175,8 @@ ORDER BY
         WHEN 'NC-17' THEN 5
     END;
 ```
+
+How many children movies there are in every different rating, this is very concering
 
 <BarChart 
     data={children_category_ratings_amount} 
